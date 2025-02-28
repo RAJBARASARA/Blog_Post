@@ -1,0 +1,104 @@
+{% extends "layout.html"  %}
+{% block body %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/home-bg.jpg')}}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Admin Panel</h1>
+                    <span class="subheading">Manage Post and Change them</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- Main Content-->
+<div class="container px-4 px-lg-5 ">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <h1>Basic Actions</h1>
+
+            <a href="/edit/0"><button class="btn btn-primary">Add a new post</button></a>
+            <a href="/logout"><button class="btn btn-primary">Logout</button></a>
+            <hr>
+            <div class="container mt-5">
+                <h2>Upload a File</h2>
+            
+                <!-- Flash messages -->
+                <form action="/uploader" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="file" name="file1" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <hr>
+            <div class="container mt-5">
+                <h2>Search</h2>
+            
+                <div class="container mt-4">
+                    <h5>Search Results for "{{ query }}"</h5>
+                    <form action="/search" method="post" class="mb-3">
+                        <input type="text" name="search" class="form-control" placeholder="Search.." value="{{ query }}">
+                        <button type="submit" class="btn btn-primary mt-2">Search</button>
+                    </form>
+                
+                    <hr>
+                
+                    {% if results %}
+                    <ul class="list-group">
+                        {% for item in results %}
+                        <li class="list-group-item">
+                            <h6>{{ item.title }}</h6>
+                            <h6>{{ item.date }}</h6>
+                            <p>{{ item.content[:40] }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No results found.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+
+            <h2>Edit/Delete Posts</h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Sr.no</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                    <tr>
+                        <td>{{post.sno}}</td>
+                        <td>{{post.title}}</td>
+                        <td>{{post.date}}</td>
+                        <td><a href="/edit/{{post.sno}}"><button class="btn btn-outline-primary">Edit</button></a></td>
+                        <td><a href="/delete/{{post.sno}}"><button class="btn btn-outline-danger">Delete</button></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

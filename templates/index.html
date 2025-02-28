@@ -1,0 +1,73 @@
+{% extends "layout.html"  %}
+{% block body %}
+        <!-- Page Header-->
+        <header class="masthead mb-0" style="background-image: url('{{ url_for('static', filename='assets/img/home-bg.jpg')}}')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Clean Hunter</h1>
+                            <span class="subheading">A Blog Theme by {{params['blog_name']}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Message Flashing Start Here. -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+
+                    <!-- Post preview-->
+                    <!-- fetch using for loop from the database -->
+
+                {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="/post/{{post.slug}}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <!-- <h3 class="post-subtitle">Subtitle</h3> -->
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">Admin</a>
+                            on {{post.date}}
+                        </p>
+                    </div>
+                    {{post.content[0:50]}}...
+                    <hr>
+                    {% endfor %}
+
+                    <!-- Pager--> 
+                    <div style="display: flex; justify-content: space-between;">
+                        {% if prev %}
+                        <a href="{{ prev }}" class="btn btn-primary text-uppercase">&larr; Previous</a>
+                        {% else %}
+                        <a class="btn btn-secondary text-uppercase disabled" aria-disabled="true">&larr; Previous</a>
+                        {% endif %}
+                    
+                        {% if next %}
+                        <a href="{{ next }}" class="btn btn-primary text-uppercase">Next &rarr;</a>
+                        {% else %}
+                        <a class="btn btn-secondary text-uppercase disabled" aria-disabled="true">Next &rarr;</a>
+                        {% endif %}
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}

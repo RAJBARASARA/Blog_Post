@@ -1,0 +1,61 @@
+{% extends "layout.html"  %}
+{% block body %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/home-bg.jpg')}}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Admin Panel</h1>
+                    <span class="subheading">Manage post and change them</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7"> 
+            <h1>Basic Actions</h1>
+            
+            <a href="/dashboard"><button class="btn btn-primary">Dashboard Home</button></a>
+            <a href="/logout"><button class="btn btn-primary">Logout</button></a>
+            <hr>
+
+            <h2>Add/Edit Posts</h2>
+            <form id="contactForm" action="/edit/{{ post.sno if post else '0' }}" method="post" data-sb-form-api-token="API_TOKEN">
+                <div class="form-floating">
+                    <input class="form-control" name="title" id="title" type="text" placeholder="Title"
+                        data-sb-validations="required" value="{{ post.title if post else '' }}" />
+                    <label for="name">Title</label> 
+                    <div class="invalid-feedback" data-sb-feedback="title:required">A Title is required.</div>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="slug" id="slug" type="text" placeholder="Slug"
+                        data-sb-validations="required" value="{{ post.slug if post else '' }}" />
+                    <label for="text">Slug</label>
+                    <div class="invalid-feedback" data-sb-feedback="slug:required">Slug is required.</div>
+                </div>
+                <div class="form-floating">
+                    <textarea rows="5" class="form-control" name="content" id="content" type="text" placeholder="Content"
+                        data-sb-validations="required">{{ post.content if post else '' }}</textarea>
+                    <label for="phone">Content</label>
+                    <div class="invalid-feedback" data-sb-feedback="content:required">Content is required.</div>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="img_file" id="img_file" type="text" placeholder="Image File"
+                        data-sb-validations="required" value="{{ post.img_file if post else '' }}" />
+                    <label for="message">Image File</label>
+                    <div class="invalid-feedback" data-sb-feedback="img_file:required">Image File is required.</div>
+                </div>
+                <br>
+                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Submit</button>
+                <hr>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
