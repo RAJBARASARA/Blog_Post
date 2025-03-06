@@ -1,73 +1,74 @@
-{% extends "layout.html"  %}
-{% block body %}
-        <!-- Page Header-->
-        <header class="masthead mb-0" style="background-image: url('{{ url_for('static', filename='assets/img/home-bg.jpg')}}')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>Clean Hunter</h1>
-                            <span class="subheading">A Blog Theme by {{params['blog_name']}}</span>
-                        </div>
-                    </div>
+{% extends "layout.html" %} {% block body %}
+<!-- Page Header -->
+<header class="masthead mb-0" style="background-image: url('{{ url_for('static', filename='assets/img/100452.jpg')}}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Clean Hunter</h1>
+                    <span class="subheading">A Blog Theme by {{ params['blog_name'] }}</span>
                 </div>
             </div>
-        </header>
-        <!-- Message Flashing Start Here. -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-
-        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
-            {{message}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    </div>
+</header>
 
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
 
-                    <!-- Post preview-->
-                    <!-- fetch using for loop from the database -->
-
-                {% for post in posts %}
-                    <div class="post-preview">
-                        <a href="/post/{{post.slug}}">
-                            <h2 class="post-title">{{ post.title }}</h2>
-                            <!-- <h3 class="post-subtitle">Subtitle</h3> -->
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Admin</a>
-                            on {{post.date}}
+            {% if posts %}
+            {% for post in posts %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="row g-0 align-items-center">
+                    <!-- Left Section: Post Content -->
+                    <div class="col-md-8 p-4 d-flex flex-column justify-content-center">
+                        <h3 class="card-title">
+                            <a href="{{ url_for('post', slug=post.slug) }}" class="text-decoration-none text-dark fw-bold">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="text-muted mb-2">
+                            <small>Posted by <strong>{{ post.author.name }}</strong> on {{ post.date }}</small>
                         </p>
+                        <p class="card-text text-secondary">{{ post.content[:100] }}...</p>
+                        <a href="{{ url_for('post', slug=post.slug) }}" class="btn btn-outline-primary btn-sm mt-2">Read More</a>
                     </div>
-                    {{post.content[0:50]}}...
-                    <hr>
-                    {% endfor %}
 
-                    <!-- Pager--> 
-                    <div style="display: flex; justify-content: space-between;">
-                        {% if prev %}
-                        <a href="{{ prev }}" class="btn btn-primary text-uppercase">&larr; Previous</a>
-                        {% else %}
-                        <a class="btn btn-secondary text-uppercase disabled" aria-disabled="true">&larr; Previous</a>
-                        {% endif %}
-                    
-                        {% if next %}
-                        <a href="{{ next }}" class="btn btn-primary text-uppercase">Next &rarr;</a>
-                        {% else %}
-                        <a class="btn btn-secondary text-uppercase disabled" aria-disabled="true">Next &rarr;</a>
-                        {% endif %}
+                    <!-- Right Section: Post Image -->
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/img/' + post.img_file) }}" class="img-fluid rounded-end w-100 h-100 object-fit-cover" alt="{{ post.title }}" loading="lazy" />
                     </div>
-                    <hr>
                 </div>
             </div>
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                No posts available.
+            </div>
+            {% endif %}
+
+            <!-- Pager -->
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ prev or '#' }}" class="btn {% if prev %}btn-primary{% else %}btn-secondary disabled{% endif %}">
+                    &larr; Previous
+                </a>
+                <a href="{{ next or '#' }}" class="btn {% if next %}btn-primary{% else %}btn-secondary disabled{% endif %}">
+                    Next &rarr;
+                </a>
+            </div>
         </div>
-
-
+    </div>
+</div>
 {% endblock %}

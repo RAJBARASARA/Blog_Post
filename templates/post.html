@@ -1,36 +1,61 @@
-{% extends "layout.html"  %}
-{% block body %}
+{% extends "layout.html" %} {% block body %}
+<header class="masthead text-center py-5">
+    <div class="site-heading">
+        <h2>Your Posts</h2>
+    </div>
+</header>
 
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %} {% endif %} {% endwith %} {% if posts %} {% for post in posts %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="row g-0 align-items-center">
+                    <!-- Left Section: Post Content -->
+                    <div class="col-md-8 p-4 d-flex flex-column justify-content-center">
+                        <h3 class="card-title">
+                            <a href="/post/{{ post.slug }}" class="text-decoration-none text-dark fw-bold">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="text-muted mb-2">
+                            <small>Posted by <strong>{{ post.author.name }}</strong> on {{ post.date }}</small>
+                        </p>
+                        <p class="card-text text-secondary">{{ post.content[:100] }}...</p>
+                        <a href="/post/{{ post.slug }}" class="btn btn-outline-primary btn-sm mt-2">Read More</a>
+                    </div>
 
-        <!-- Page Header-->
-        {% set fname = 'assets/img/' + post.img_file %}
-        <header class="masthead" style="background-image: url('{{ url_for('static', filename=fname) }}')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="post-heading">
-                            <h1>{{post.title}}</h1>
-                            <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
-                            <span class="meta">
-                                Posted by
-                                <a href="#!">Admin</a>
-                                on {{post.date}}
-                            </span>
-                        </div>
+                    <!-- Right Section: Post Image -->
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/img/' + post.img_file) }}" class="img-fluid rounded-end w-100 h-100 object-fit-cover" alt="{{ post.title }}" />
                     </div>
                 </div>
             </div>
-        </header>
-        <!-- Post Content-->
-        <article class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        {{post.content}}
-                    </div>
-                </div>
+            {% endfor %} {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                No posts available.
             </div>
-        </article>
+            {% endif %}
 
-
+            <!-- Pager -->
+            <div class="d-flex justify-content-between mt-4">
+                {% if prev %}
+                <a href="{{ prev }}" class="btn btn-primary">&larr; Previous</a>
+                {% else %}
+                <a class="btn btn-secondary disabled" aria-disabled="true">&larr; Previous</a>
+                {% endif %} {% if next %}
+                <a href="{{ next }}" class="btn btn-primary">Next &rarr;</a>
+                {% else %}
+                <a class="btn btn-secondary disabled" aria-disabled="true">Next &rarr;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

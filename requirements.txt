@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-WTF
+mysql-connector-python
+Werkzeug
+werkzeug.utils
+datetime
+flask_migrate
+flask_mail

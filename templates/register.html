@@ -97,8 +97,29 @@ h2 {
     color: #6c63ff;
     text-decoration: none;
 }
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: #ffdddd;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+}
+
+.alert-success {
+    background-color: #ddffdd;
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
 
 </style>
+
 <body>
     <section>
         <div class="mask d-flex align-items-center h-100">
@@ -115,27 +136,36 @@ h2 {
                                         <input type="text" id="form3Example1cg" name="name" class="form-control form-control-lg"
                                             placeholder="Enter your Name: " required />
                                     </div>
-                                
+
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="form3Example3cg">Email</label>
                                         <input type="email" id="form3Example3cg" name="email" class="form-control form-control-lg"
                                             placeholder="Enter Email address" required />
                                     </div>
-                                
+
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <label class="form-label" for="form3Example4cg">Password</label>
                                         <input type="password" id="form3Example4cg" name="password" class="form-control form-control-lg"
                                             placeholder="Enter Password" required />
                                     </div>
-                                
+
                                     <div class="d-flex justify-content-center">
                                         <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
                                     </div>
-                                
+
                                     <p class="text-center text-muted mt-5 mb-0">Have already an account?
                                         <a href="/login" class="fw-bold text-body"><u>Login here</u></a>
                                     </p>
                                 </form>
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
                             </div>
                         </div>
                     </div>

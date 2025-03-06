@@ -7,7 +7,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
                     <h1>Admin Panel</h1>
-                    <span class="subheading">Edit your post</span>
+                    <span class="subheading">Manage posts and create new ones</span>
                 </div>
             </div>
         </div>
@@ -23,43 +23,38 @@
 {% endfor %}
 {% endif %}
 {% endwith %}
-
 <!-- Main Content -->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <h1>Edit Post</h1>
+            <h1>Add a New Post</h1>
 
             <a href="/dashboard"><button class="btn btn-secondary">Back to Dashboard</button></a>
-            <a href="/logout"><button class="btn btn-danger">Logout</button></a>
             <hr>
 
-            <form id="editPostForm" action="/edit/{{ post.sno }}" method="POST" enctype="multipart/form-data">
+            <form id="addPostForm" action="/add" method="POST" enctype="multipart/form-data">
                 <div class="form-floating">
-                    <input class="form-control" name="title" id="title" type="text" placeholder="Title" required
-                        value="{{ post.title if post else '' }}" />
+                    <input class="form-control" name="title" id="title" type="text" placeholder="Title" required />
                     <label for="title">Title</label>
                 </div>
 
                 <div class="form-floating">
-                    <input class="form-control" name="slug" id="slug" type="text" placeholder="Slug" required
-                        value="{{ post.slug if post else '' }}" />
+                    <input class="form-control" name="slug" id="slug" type="text" placeholder="Slug" required />
                     <label for="slug">Slug</label>
                 </div>
 
                 <div class="form-floating">
-                    <textarea rows="5" class="form-control" name="content" id="content" placeholder="Content" required>{{ post.content if post else '' }}</textarea>
+                    <textarea rows="5" class="form-control" name="content" id="content" placeholder="Content" required></textarea>
                     <label for="content">Content</label>
                 </div>
 
-                <!-- Display Current Image -->
                 <div class="form-floating">
-                    <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" placeholder="Image File" />
-                    <label for="img_file">Upload New Image(optional)</label>
+                    <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" placeholder="Image File" required />
+                    <label for="img_file">Image File</label>
                 </div>
 
                 <br>
-                <button class="btn btn-primary text-uppercase" type="submit">Update</button>
+                <button class="btn btn-primary text-uppercase" type="submit">Submit</button>
             </form>
         </div>
     </div>
