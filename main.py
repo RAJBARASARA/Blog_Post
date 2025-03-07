@@ -100,7 +100,7 @@ def post():
     next_url = url_for("post", page=user_posts.next_num) if user_posts.has_next else None
     return render_template('post.html', posts=user_posts.items, user=user, prev=prev_url, next=next_url,params=params)
 
-@app.route("/dashboard", methods=['GET'])
+@app.route("/dashboard", methods=['GET','POST'])
 def dashboard():
     if 'user' not in session:
         flash("Please log in first!", "warning")
@@ -160,7 +160,7 @@ def add_post():
         return redirect(url_for("dashboard"))
     return render_template("add.html", params=params)
 
-@app.route("/edit/<int:sno>", methods=['GET', 'PUT'])
+@app.route("/edit/<int:sno>", methods=['GET', 'POST'])
 def edit_post(sno):
     if 'user' not in session:
         flash("Please log in first!", "warning")
@@ -215,7 +215,7 @@ def post_route(post_slug):
         flash("Post not found!", "danger")
         return redirect(url_for("home"))
 
-@app.route("/delete/<int:sno>", methods=['DELETE'])
+@app.route("/delete/<int:sno>", methods=['POST'])
 def delete(sno):
     if 'user' not in session:
         flash("Please log in first!", "warning")
@@ -300,7 +300,7 @@ def contact():
 
     return render_template('contact.html', params=params)
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout')
 def logout():
     if 'user' not in session:
         flash("You are not logged in.", "warning")
