@@ -29,8 +29,8 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             <h1>Basic Actions</h1>
 
-            <a href="/add"><button class="btn btn-primary">Add a new post</button></a>
-            <a href="/logout"><button class="btn btn-primary">Logout</button></a>
+            <a href="{{ url_for('add_post') }}"><button class="btn btn-primary">Add a new post</button></a>
+            <a href="{{ url_for('logout') }}"><button class="btn btn-primary">Logout</button></a>
             <hr>
 
             <h2>Edit/Delete Posts</h2>

@@ -48,16 +48,22 @@
                 </div>
 
                 <div class="form-floating">
-                    <textarea rows="5" class="form-control" name="content" id="content" placeholder="Content" required>{{ post.content if post else '' }}</textarea>
+                    <textarea rows="7" class="form-control" name="content" id="content" placeholder="Content" required>{{ post.content or '' }}</textarea>
                     <label for="content">Content</label>
                 </div>
 
                 <!-- Display Current Image -->
+                    {% if post.img_file %}
+                        <div class="mb-3">
+                            <label>Current Image:</label>
+                            <br>
+                            <img src="{{ url_for('static', filename='assets/img/' + post.img_file) }}" alt="Post Image" style="max-width: 200px;">
+                        </div>
+                    {% endif %}
                 <div class="form-floating">
                     <input class="form-control" name="img_file" id="img_file" type="file" accept="image/*" placeholder="Image File" />
                     <label for="img_file">Upload New Image(optional)</label>
                 </div>
-
                 <br>
                 <button class="btn btn-primary text-uppercase" type="submit">Update</button>
             </form>

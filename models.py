@@ -14,7 +14,7 @@ class Contacts(db.Model):
 class Posts(db.Model):
     '''sno title slug content date'''
     sno = db.Column(db.Integer,primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Added user_id column
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     slug = db.Column(db.String(50), unique=True, nullable=False)
     content = db.Column(db.Text, nullable=False)
